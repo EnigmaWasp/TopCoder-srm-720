@@ -1,0 +1,35 @@
+import java.util.*;
+import java.util.regex.*;
+import java.text.*;
+import java.math.*;
+
+
+public class DistinctGridEasy
+{
+	public String checkGrid(int n, int k, int[] grid)
+	{
+		int[][] a = new int[n][n];
+		for (int i = 0 ; i < n * n ; i++) {
+			int r = i / n;
+			int c = i % n;
+			a[r][c] = grid[i];
+		}
+		boolean ok = true;
+		for (int i = 0 ; i < n ; i++) {
+			boolean[] d = new boolean[k];
+			for (int j = 0 ; j < n ; j++) d[a[i][j]] = true;
+			int cnt = 0;
+			for (int j = 0 ; j < k ; j++) 
+				if (d[j] == true) cnt += 1;
+			ok &= (cnt == k);
+			d = new boolean[k];
+			for (int j = 0 ; j < n ; j++) d[a[j][i]] = true;
+			cnt = 0;
+			for (int j = 0 ; j < k ; j++)
+				if (d[j] == true) cnt += 1;
+			ok &= (cnt == k);
+		}
+		if (ok) return "Good";
+		return "Bad";
+	}	
+}

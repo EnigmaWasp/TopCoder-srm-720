@@ -1,0 +1,50 @@
+import java.util.*;
+import java.util.regex.*;
+import java.text.*;
+import java.math.*;
+
+
+public class MinProduct
+{
+	public long findMin(int[] amount, int blank1, int blank2)
+	{
+		if (amount[0] >= blank1 || amount[0] >= blank2) return 0L;
+		if (blank1 > blank2) { int t = blank1; blank1 = blank2; blank2 = t; }
+		if (amount[0] != 0) {
+			long A = 0;
+			long B = 0;
+			int i = 0;
+			while (blank1 != 0) {
+				while (amount[i] == 0) i += 1;
+				amount[i] -= 1;
+				A = A * 10L + i * 1L;
+				blank1 -= 1;				
+			}
+			while (blank2 != 0) {
+				while (amount[i] == 0) i += 1;
+				amount[i] -= 1;
+				B = B * 10L + i * 1L;
+				blank2 -= 1;
+			}
+			return A * B;
+		} else {
+			int[] digits = new int[blank1 + blank2];
+			int i = 0;
+			int cur = 0;
+			while (cur < blank1 + blank2) {
+				while (amount[i] == 0) i += 1;
+				digits[cur++] = i;
+				amount[i] -= 1;
+			}
+			long A = 0 , B = 0;
+			for (i = 0 ; i < blank1 ; i++) {
+				A = A * 10L + digits[i * 2] * 1L;
+				B = B * 10L + digits[i * 2 + 1] * 1L;
+			}
+			for (i = blank1 ; i < blank2 ; i++) B = B * 10L + digits[2 * blank1 + i - blank1] * 1L;
+			return A * B;
+		}
+	}
+	
+
+}
